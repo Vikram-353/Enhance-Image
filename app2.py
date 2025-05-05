@@ -39,7 +39,7 @@ if uploaded_file is not None:
 
     elif method == "Unsharp Masking":
         blurred = cv2.GaussianBlur(img_bgr, (9, 9), 10.0)
-        sharpened = cv2.addWeighted(img_bgr, 1.5, blurred, -0.5, 0)
+        sharpened = cv2.addWeighted(img_bgr, 1.5, blurred, -0.9, 5)
         enhanced_rgb = cv2.cvtColor(sharpened, cv2.COLOR_BGR2RGB)
         caption = "Sharpened Image (Unsharp Masking)"
 
