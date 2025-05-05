@@ -38,10 +38,17 @@ if uploaded_file is not None:
         caption = "Enhanced Image (CLAHE)"
 
     elif method == "Unsharp Masking":
-        blurred = cv2.GaussianBlur(img_bgr, (9, 9), 10.0)
-        sharpened = cv2.addWeighted(img_bgr, 1.5, blurred, -0.9, 5)
+        st.markdown("### 🔧 Unsharp Masking Controls")
+        kernel_size = st.slider("Blur Kernel Size (odd number)", 1, 31, 9, 2)
+        sigma = st.slider("Gaussian Sigma", 0.1, 20.0, 10.0, 0.1)
+        amount = st.slider("Sharpening Amount", 0.0, 5.0, 1.5, 0.1)
+        threshold = st.slider("Brightness Offset (add to pixel)", -100, 100, 5)
+
+        blurred = cv2.GaussianBlur(img_bgr, (kernel_size, kernel_size), sigma)
+        sharpened = cv2.addWeighted(img_bgr, amount, blurred, -1 * (amount - 1), threshold)
         enhanced_rgb = cv2.cvtColor(sharpened, cv2.COLOR_BGR2RGB)
-        caption = "Sharpened Image (Unsharp Masking)"
+        caption = f"Sharpened Image (Unsharp Masking, Kernel={kernel_size}, Sigma={sigma}, Amount={amount})"
+
 
     elif method == "Gamma Correction":
         col1, col2, col3 = st.columns(3)
